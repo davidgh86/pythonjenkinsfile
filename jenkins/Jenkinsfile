@@ -1,0 +1,59 @@
+pipeline {
+	agent { label 'interns' }
+     parameters {
+     	booleanParam(name: 'mvnInstall', defaultValue: true, description: "")
+        booleanParam(name: 'skipTest', defaultValue: false, description: "Skip tests")
+        booleanParam(name: 'mvnSonar', defaultValue: true, description: "")
+        booleanParam(name: 'mvnDeploy', defaultValue: true, description: "")         
+    }
+	environment { 
+		appFolder = '.'
+		mavenVersion = 'Maven3'		
+        sonarToken = credentials('sonar-jenkins-devops-robot') 
+        mavenOptions = '-Xmx750m -Xms256m'
+        mavenProfile = 'carlos'
+        appName = 'my-app'
+		mavenSettings = 'chema-setting' 
+        
+    }
+    tools { 
+        maven mavenVersion
+        jdk 'java-1.8.0-openjdk'
+    }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '5')) 
+    }
+	stages {      
+		stage('Maven: install') {
+		    when { expression {  return mvnInstall == "true"  } }  
+			steps {
+				withMaven(maven: mavenVersion,  mavenSettingsConfig: mavenSettings, mavenOpts: mavenOptions) {
+					dir (appFolder) {
+						sh 'mvn clean install -Dmaven.test.skip=${skipTest}' 
+					}       
+				 }					
+		    }
+		}
+		stage('Maven: sonar') {
+		    when { expression {  return mvnSonar == "true"  } }  
+			steps {
+				withMaven(maven: mavenVersion,  mavenSettingsConfig: mavenSettings, mavenOpts: mavenOptions) {
+					dir (appFolder) {
+						sh 'mvn sonar:sonar -Dsonar.login=${sonarToken}'
+					}       
+				 }		
+		    }
+		}
+		stage('Maven: deploy') {
+		    when { expression {  return mvnDeploy == "true"  } }  
+			steps {
+				withMaven(maven: mavenVersion,  mavenSettingsConfig: mavenSettings, mavenOpts: mavenOptions) {
+					dir (appFolder) {
+						sh 'mvn deploy -P${mavenProfile}'
+					}       
+				 }				
+		    }
+		}
+
+	}	
+}

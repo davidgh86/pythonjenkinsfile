@@ -1,0 +1,17 @@
+ version: '2'
+ services:
+   web:
+     image: python_web:test1
+     container_name: web
+     environment:
+       - WEBAPP_SECRET_KEY=abc
+     expose:
+       - "3030"
+   proxy:
+     restart: always
+     container_name: proxy
+     image: proxy_python:latest
+     ports:
+       - "8080:80"
+     links:
+       - web:web
