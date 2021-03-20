@@ -23,7 +23,7 @@ iniparse==0.4
 ipaddress==1.0.22
 IPy==0.75
 javapackages==1.0.0
-Jinja2==2.10.1
+Jinja2==2.11.3
 jmespath==0.9.4
 jsonschema==2.6.0
 lxml==3.2.1
