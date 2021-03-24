@@ -45,7 +45,7 @@ pyudev==0.15
 pyxattr==0.5.1
 PyYAML==3.13
 requests==2.11.1
-rsa==3.4.2
+rsa==4.1
 s3transfer==0.2.1
 schedutils==0.4
 seobject==0.1
