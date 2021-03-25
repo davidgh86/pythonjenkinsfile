@@ -43,7 +43,7 @@ python-dateutil==2.8.0
 python-linux-procfs==0.4.9
 pyudev==0.15
 pyxattr==0.5.1
-PyYAML==3.13
+PyYAML==5.4
 requests==2.11.1
 rsa==3.4.2
 s3transfer==0.2.1
