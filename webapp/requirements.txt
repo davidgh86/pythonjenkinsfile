@@ -28,7 +28,7 @@ jmespath==0.9.4
 jsonschema==2.6.0
 lxml==3.2.1
 MarkupSafe==1.1.1
-paramiko==2.6.0
+paramiko==2.10.1
 perf==0.1
 policycoreutils-default-encoding==0.1
 pyasn1==0.4.7
